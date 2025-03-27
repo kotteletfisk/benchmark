@@ -4,7 +4,9 @@
 #include <bits/stdc++.h>
 #include <sys/resource.h>
 #include <iostream>
+#include <chrono>
 using namespace std;
+using namespace chrono;
 
 // Function for getting Max rss memory
 long get_mem_usage()
@@ -37,10 +39,6 @@ vector<bool> SieveOfEratosthenes(int n)
         }
     }
 
-/*     // Print all prime numbers
-    for (int p = 2; p <= n; p++)
-        if (prime[p])
-            cout << p << " "; */
     return prime;
 }
 
@@ -50,14 +48,12 @@ int main()
     clock_t start, end;
     int n = 10000000;
     int res_count = 0;
-    cout << "Calculating prime numbers smaller "
-         << "than or equal to " << n << endl;
-    start = clock();
+ 
+    auto total_start = high_resolution_clock::now();
     vector<bool> res = SieveOfEratosthenes(n);
-    end = clock();
+    auto total_end = high_resolution_clock::now();
 
-    double ticks_taken = double(end - start);
-    double time_taken = ticks_taken / double(CLOCKS_PER_SEC);
+    auto total_duration = duration_cast<duration<double>>(total_end - total_start);
 
     for (int i = 0; i < res.size(); i++)
     {
@@ -65,7 +61,7 @@ int main()
     }
 
     cout << "\nPrime numbers found: " << res_count << "\n";
-    cout << "Time in seconds: " << time_taken << "\n";
+    cout << "Time in seconds: " << total_duration.count() << "\n";
     cout << "Memory usage in bytes: " << get_mem_usage() << endl;
 
     return 0;

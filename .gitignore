@@ -1,3 +1,3 @@
 .vscode
-rust/soe_stat_rs/target
-rust/linked_stat/target
+rust/mem/target
+rust/soe/target

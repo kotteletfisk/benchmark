@@ -1,6 +1,7 @@
 use libc::{getrusage, rusage, RUSAGE_SELF};
 fn main() {
-    let i: usize = 10000000;
+    let mut i: usize = 10000000;
+
     let mut count: i32 = 0;
     use std::time::Instant;
 
@@ -14,7 +15,7 @@ fn main() {
         }
     }
 
-    println!("Prime numbers found: {}", count);
+    println!("\nPrime numbers found: {}", count);
     println!("Time in seconds: {:.6?}", elapsed);
     println!("Memory usage in bytes: {}", get_mem_usage());
 }
