@@ -1,0 +1,29 @@
+# Use Alpine Linux as the base image
+FROM alpine:latest
+
+# Install necessary tools: curl, bash, gcc, musl-dev
+RUN apk add --no-cache curl bash gcc musl-dev
+
+# Install Rust (using rustup to install the toolchain)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+
+# Set environment variables for Rust
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Set the working directory inside the container to the project folder
+WORKDIR /soe_stat_rs
+
+# Copy the content of the `soe_stat_rs` folder (which includes src/memory_management.rs) into the container
+COPY ./soe_stat_rs /soe_stat_rs
+
+# Verify the contents of the /soe_stat_rs directory
+RUN ls -l /soe_stat_rs/src
+
+# Explicitly build `memory_management.rs` instead of the whole project
+RUN rustc -O /soe_stat_rs/src/memory_allo.rs -o /soe_stat_rs/memory_allo
+
+# List the files to verify the build output
+RUN ls -l /soe_stat_rs
+
+# Set the default command to run the compiled binary
+CMD ["/soe_stat_rs/memory_allo"]

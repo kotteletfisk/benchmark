@@ -1,0 +1,17 @@
+# Use Alpine Linux as the base image
+FROM alpine:latest
+
+# Install g++ and necessary build tools
+RUN apk add --no-cache g++ make
+
+# Set working directory
+WORKDIR /app
+
+# Copy the C++ source file into the container
+COPY memory_allo.cpp .
+
+# Compile the C++ program
+RUN g++ -o memory_allo memory_allo.cpp
+
+# Set the default command to run the compiled binary
+CMD ["./memory_allo"]
